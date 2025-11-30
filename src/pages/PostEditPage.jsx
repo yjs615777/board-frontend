@@ -25,7 +25,7 @@ function PostEditPage() {
 
   const fetchPost = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/posts/${id}`)
+      const response = await fetch(`http://localhost:8080/api/posts/${id}/edit`)
       const data = await response.json()
       
       if (data.success) {
