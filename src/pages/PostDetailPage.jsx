@@ -197,7 +197,7 @@ function PostDetailPage() {
                     <span className="comment-author">{comment.authorName}</span>
                     <span className="comment-content">{comment.content}</span>
                     <span className="comment-date">
-                      {formatDate(comment.createdAt) || formatTime(comment.createdAt)}
+                      {formatDate(comment.createdAt)}
                     </span>
                     {user && comment.authorName === user.username && (
                       <button 
