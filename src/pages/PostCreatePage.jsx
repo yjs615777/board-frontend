@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { authFetch } from '../utils/api'
 import Sidebar from '../components/Sidebar'
 import './PostPages.css'
 
@@ -9,16 +10,13 @@ function PostCreatePage() {
     title: '',
     content: ''
   })
-  const [user, setUser] = useState(null)
 
   useEffect(() => {
     const userData = localStorage.getItem('user')
     if (!userData) {
       alert('Please log in to continue.')
       navigate('/login')
-      return
     }
-    setUser(JSON.parse(userData))
   }, [navigate])
 
   const handleChange = (e) => {
@@ -35,18 +33,13 @@ function PostCreatePage() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/api/posts?userId=${user.id}`, {
+      const data = await authFetch('/posts', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({
           title: formData.title,
           content: formData.content
         })
       })
-
-      const data = await response.json()
 
       if (data.success) {
         alert('The post has been created.')

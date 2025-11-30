@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { authFetch } from '../utils/api'
 import Sidebar from '../components/Sidebar'
 import './PostPages.css'
 
@@ -25,9 +26,7 @@ function PostDetailPage() {
 
   const fetchPost = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/posts/${id}`)
-      const data = await response.json()
-      
+      const data = await authFetch(`/posts/${id}`)
       if (data.success) {
         setPost(data.data)
       }
@@ -38,9 +37,7 @@ function PostDetailPage() {
 
   const fetchComments = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/posts/${id}/comments`)
-      const data = await response.json()
-      
+      const data = await authFetch(`/posts/${id}/comments`)
       if (data.success) {
         setComments(data.data)
       }
@@ -54,26 +51,18 @@ function PostDetailPage() {
     const date = new Date(dateString)
     const today = new Date()
   
-  const isToday = 
-    date.getFullYear() === today.getFullYear() &&
-    date.getMonth() === today.getMonth() &&
-    date.getDate() === today.getDate()
+    const isToday = 
+      date.getFullYear() === today.getFullYear() &&
+      date.getMonth() === today.getMonth() &&
+      date.getDate() === today.getDate()
   
-  if (isToday) {
-    const hours = String(date.getHours()).padStart(2, '0')
-    const minutes = String(date.getMinutes()).padStart(2, '0')
-    return `${hours}:${minutes}`
-  } else {
-    return `${date.getMonth() + 1}/${date.getDate()}`
-  }
-}
-
-  const formatTime = (dateString) => {
-    if (!dateString) return ''
-    const date = new Date(dateString)
-    const hours = String(date.getHours()).padStart(2, '0')
-    const minutes = String(date.getMinutes()).padStart(2, '0')
-    return `${hours}:${minutes}`
+    if (isToday) {
+      const hours = String(date.getHours()).padStart(2, '0')
+      const minutes = String(date.getMinutes()).padStart(2, '0')
+      return `${hours}:${minutes}`
+    } else {
+      return `${date.getMonth() + 1}/${date.getDate()}`
+    }
   }
 
   const handleEdit = () => {
@@ -84,10 +73,9 @@ function PostDetailPage() {
     if (!window.confirm('Are you sure you want to delete this post?')) return
 
     try {
-      const response = await fetch(`http://localhost:8080/api/posts/${id}?userId=${user.id}`, {
+      const data = await authFetch(`/posts/${id}`, {
         method: 'DELETE'
       })
-      const data = await response.json()
 
       if (data.success) {
         alert('The post has been deleted.')
@@ -107,17 +95,12 @@ function PostDetailPage() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/api/posts/${id}/comments?userId=${user.id}`, {
+      const data = await authFetch(`/posts/${id}/comments`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({
           content: newComment
         })
       })
-
-      const data = await response.json()
 
       if (data.success) {
         setNewComment('')
@@ -134,10 +117,9 @@ function PostDetailPage() {
     if (!window.confirm('Are you sure you want to delete this comment?')) return
 
     try {
-      const response = await fetch(`http://localhost:8080/api/posts/${id}/comments/${commentId}?userId=${user.id}`, {
+      const data = await authFetch(`/posts/${id}/comments/${commentId}`, {
         method: 'DELETE'
       })
-      const data = await response.json()
 
       if (data.success) {
         fetchComments()

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { publicFetch } from '../utils/api'
 import './AuthPages.css'
 
 function LoginPage() {
@@ -19,7 +20,6 @@ function LoginPage() {
 
   const handleSubmit = async () => {
     setError('')
-    
     // 유효성 검사
     if (!formData.email || !formData.password) {
       setError('Please fill in all fields.')
@@ -27,24 +27,19 @@ function LoginPage() {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/users/login', {
+      const data = await publicFetch('/users/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({
           email: formData.email,
           password: formData.password
         })
       })
 
-      const data = await response.json()
-
       if (data.success) {
-        // 로그인 성공 - 사용자 정보 저장
+        // 토큰 포함해서 저장
         localStorage.setItem('user', JSON.stringify(data.data))
-        alert(`${data.data.username}님 환영합니다!`)
-        navigate('/posts')  // 게시글 목록으로 이동
+        alert(`${data.data.username} Welcome!`)
+        navigate('/posts') // 게시글 목록으로 이동
       } else {
         setError(data.message || 'Login failed.')
       }

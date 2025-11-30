@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { authFetch } from '../utils/api'
 import Sidebar from '../components/Sidebar'
 import './PostPages.css'
 
@@ -17,14 +18,12 @@ function PostListPage() {
       navigate('/login')
       return
     }
-
     fetchPosts(currentPage)
   }, [currentPage, navigate])
 
   const fetchPosts = async (page) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/posts?page=${page}&size=5`)
-      const data = await response.json()
+      const data = await authFetch(`/posts?page=${page}&size=5`)
       
       if (data.success) {
         setPosts(data.data.content)
@@ -38,24 +37,25 @@ function PostListPage() {
   const formatDate = (dateString) => {
     if (!dateString) return ''
     const date = new Date(dateString)
-  const today = new Date()
-  
-  // 오늘인지 확인 (년/월/일 비교)
-  const isToday = 
-    date.getFullYear() === today.getFullYear() &&
-    date.getMonth() === today.getMonth() &&
-    date.getDate() === today.getDate()
-  
-  if (isToday) {
+    const today = new Date()
+    
+
+    // 오늘인지 확인 (년/월/일 비교)
+    const isToday = 
+      date.getFullYear() === today.getFullYear() &&
+      date.getMonth() === today.getMonth() &&
+      date.getDate() === today.getDate()
+    
+    if (isToday) {
     // 오늘이면 시간 표시 (16:23)
-    const hours = String(date.getHours()).padStart(2, '0')
-    const minutes = String(date.getMinutes()).padStart(2, '0')
-    return `${hours}:${minutes}`
-  } else {
-    // 오늘 아니면 월/일 표시 (11/30)
-    return `${date.getMonth() + 1}/${date.getDate()}`
+      const hours = String(date.getHours()).padStart(2, '0')
+      const minutes = String(date.getMinutes()).padStart(2, '0')
+      return `${hours}:${minutes}`
+    } else {
+        // 오늘 아니면 월/일 표시 (11/30)
+        return `${date.getMonth() + 1}/${date.getDate()}`
+    }
   }
-}
 
   const handlePostClick = (postId) => {
     navigate(`/posts/${postId}`)

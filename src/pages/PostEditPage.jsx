@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { authFetch } from '../utils/api'
 import Sidebar from '../components/Sidebar'
 import './PostPages.css'
 
@@ -10,7 +11,6 @@ function PostEditPage() {
     title: '',
     content: ''
   })
-  const [user, setUser] = useState(null)
 
   useEffect(() => {
     const userData = localStorage.getItem('user')
@@ -19,14 +19,12 @@ function PostEditPage() {
       navigate('/login')
       return
     }
-    setUser(JSON.parse(userData))
     fetchPost()
   }, [id, navigate])
 
   const fetchPost = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/posts/${id}/edit`)
-      const data = await response.json()
+      const data = await authFetch(`/posts/${id}/edit`)
       
       if (data.success) {
         setFormData({
@@ -53,18 +51,13 @@ function PostEditPage() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/api/posts/${id}?userId=${user.id}`, {
+      const data = await authFetch(`/posts/${id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
         body: JSON.stringify({
           title: formData.title,
           content: formData.content
         })
       })
-
-      const data = await response.json()
 
       if (data.success) {
         alert('The post has been updated.')
