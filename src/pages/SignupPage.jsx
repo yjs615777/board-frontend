@@ -23,7 +23,7 @@ function SignupPage() {
     
     // 유효성 검사
     if (!formData.name || !formData.email || !formData.password) {
-      setError('모든 필드를 입력해주세요.')
+      setError('Please fill in all fields.')
       return
     }
 
@@ -43,13 +43,13 @@ function SignupPage() {
       const data = await response.json()
 
       if (data.success) {
-        alert('회원가입 성공! 로그인해주세요.')
+        alert('Sign up successful! Please log in.')
         navigate('/login')
       } else {
-        setError(data.message || '회원가입에 실패했습니다.')
+        setError(data.message || 'Registration failed.')
       }
     } catch (err) {
-      setError('서버 연결에 실패했습니다.')
+      setError('Failed to connect to the server.')
     }
   }
 
@@ -98,7 +98,7 @@ function SignupPage() {
           </div>
 
           <button className="auth-button" onClick={handleSubmit}>
-            Signup
+            Sign Up
           </button>
 
           <div className="auth-divider">

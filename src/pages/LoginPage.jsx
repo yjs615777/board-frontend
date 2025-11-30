@@ -22,7 +22,7 @@ function LoginPage() {
     
     // 유효성 검사
     if (!formData.email || !formData.password) {
-      setError('모든 필드를 입력해주세요.')
+      setError('Please fill in all fields.')
       return
     }
 
@@ -46,10 +46,10 @@ function LoginPage() {
         alert(`${data.data.username}님 환영합니다!`)
         navigate('/posts')  // 게시글 목록으로 이동
       } else {
-        setError(data.message || '로그인에 실패했습니다.')
+        setError(data.message || 'Login failed.')
       }
     } catch (err) {
-      setError('서버 연결에 실패했습니다.')
+      setError('Failed to connect to the server.')
     }
   }
 
