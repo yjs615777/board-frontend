@@ -1,0 +1,50 @@
+/* Sidebar Styles */
+
+.sidebar {
+  width: 250px;
+  min-height: 100vh;
+  background-color: #6B9B4B;
+  padding: 100px 30px 30px 30px;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sidebar-link {
+  color: #ffffff;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  padding: 0;
+}
+
+.sidebar-link:hover {
+  opacity: 0.8;
+}
+
+.sidebar-logout {
+  color: #ffffff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
