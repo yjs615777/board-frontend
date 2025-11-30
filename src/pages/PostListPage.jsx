@@ -38,8 +38,24 @@ function PostListPage() {
   const formatDate = (dateString) => {
     if (!dateString) return ''
     const date = new Date(dateString)
+  const today = new Date()
+  
+  // 오늘인지 확인 (년/월/일 비교)
+  const isToday = 
+    date.getFullYear() === today.getFullYear() &&
+    date.getMonth() === today.getMonth() &&
+    date.getDate() === today.getDate()
+  
+  if (isToday) {
+    // 오늘이면 시간 표시 (16:23)
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+    return `${hours}:${minutes}`
+  } else {
+    // 오늘 아니면 월/일 표시 (11/30)
     return `${date.getMonth() + 1}/${date.getDate()}`
   }
+}
 
   const handlePostClick = (postId) => {
     navigate(`/posts/${postId}`)

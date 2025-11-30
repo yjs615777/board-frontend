@@ -52,8 +52,21 @@ function PostDetailPage() {
   const formatDate = (dateString) => {
     if (!dateString) return ''
     const date = new Date(dateString)
+    const today = new Date()
+  
+  const isToday = 
+    date.getFullYear() === today.getFullYear() &&
+    date.getMonth() === today.getMonth() &&
+    date.getDate() === today.getDate()
+  
+  if (isToday) {
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+    return `${hours}:${minutes}`
+  } else {
     return `${date.getMonth() + 1}/${date.getDate()}`
   }
+}
 
   const formatTime = (dateString) => {
     if (!dateString) return ''
