@@ -1,0 +1,113 @@
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import './AuthPages.css'
+
+function LoginPage() {
+  const navigate = useNavigate()
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  })
+  const [error, setError] = useState('')
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSubmit = async () => {
+    setError('')
+    
+    // 유효성 검사
+    if (!formData.email || !formData.password) {
+      setError('모든 필드를 입력해주세요.')
+      return
+    }
+
+    try {
+      const response = await fetch('http://localhost:8080/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        // 로그인 성공 - 사용자 정보 저장
+        localStorage.setItem('user', JSON.stringify(data.data))
+        alert(`${data.data.username}님 환영합니다!`)
+        navigate('/posts')  // 게시글 목록으로 이동
+      } else {
+        setError(data.message || '로그인에 실패했습니다.')
+      }
+    } catch (err) {
+      setError('서버 연결에 실패했습니다.')
+    }
+  }
+
+  return (
+    <div className="auth-container">
+      <div className="auth-form-section">
+        <div className="auth-form-wrapper">
+          <h1 className="auth-title">Welcome Back</h1>
+          
+          {error && <div className="auth-error">{error}</div>}
+
+          <div className="form-group">
+            <label className="form-label">Email address</label>
+            <input
+              type="email"
+              name="email"
+              className="form-input"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Password</label>
+            <input
+              type="password"
+              name="password"
+              className="form-input"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+          </div>
+
+          <button className="auth-button" onClick={handleSubmit}>
+            Sign In
+          </button>
+
+          <div className="auth-divider">
+            <span>Or</span>
+          </div>
+
+          <p className="auth-switch">
+            Don't have an account? <Link to="/signup" className="auth-link">Sign Up</Link>
+          </p>
+        </div>
+      </div>
+
+      <div className="auth-image-section">
+        <img 
+          src="https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=800&q=80" 
+          alt="Plant" 
+          className="auth-image"
+        />
+      </div>
+    </div>
+  )
+}
+
+export default LoginPage
