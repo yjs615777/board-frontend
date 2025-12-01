@@ -29,7 +29,7 @@ function SignupPage() {
     }
 
     try {
-      const response = await fetch('http://15.164.61.176:8080/api/users/signup', {
+      const response = await fetch('https://api.js-board.online/api/users/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
