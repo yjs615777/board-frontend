@@ -454,35 +454,40 @@
   margin-top: 20px;
 }
 
+/* Edit / Delete 공통 스타일 */
 .edit-btn,
 .delete-btn {
   font-family: 'Helvetica Neue', sans-serif;
   font-size: 14px;
   font-weight: 500;
   padding: 10px 24px;
-  border-radius: 4px;
+  border-radius: 20px; /* Create처럼 둥글게 */
   cursor: pointer;
-  transition: all 0.2s ease;
+  border: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
+/* Edit = 초록 필 버튼 */
 .edit-btn {
-  background-color: #ffffff;
-  color: #1a1a1a;
-  border: 1px solid #1a1a1a;
+  background-color: #3D5A3D;
+  color: #ffffff;
 }
 
 .edit-btn:hover {
-  background-color: #f5f5f5;
+  background-color: #2d442d;
+  transform: translateY(-1px);
 }
 
+/* Delete = 초록 테두리 아웃라인 */
 .delete-btn {
   background-color: #ffffff;
-  color: #1a1a1a;
-  border: 1px solid #1a1a1a;
+  color: #3D5A3D;
+  border: 1px solid #3D5A3D;
 }
 
 .delete-btn:hover {
-  background-color: #f5f5f5;
+  background-color: #f3f8f3;
+  transform: translateY(-1px);
 }
 
 /* 댓글 섹션 */
