@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:8080/api'
+const API_BASE = 'http://15.164.61.176:8080/api'
 
 // 토큰 가져오기
 const getToken = () => {
