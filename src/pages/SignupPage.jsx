@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './AuthPages.css'
 
+
 function SignupPage() {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
@@ -28,7 +29,7 @@ function SignupPage() {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/users/signup', {
+      const response = await fetch('http://15.164.61.176:8080/api/users/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
